@@ -1,0 +1,24 @@
+{
+    "manifest_version": 2,
+    "name": "Open in browser",
+    "description": "A context menu item to open the links associated with news items in the default browser and then mark them as read.",
+    "version": "0.1",
+    "author": "Adam Reichold",
+    "applications": {
+        "gecko": {
+            "id": "open-in-browser@adamreichold.de",
+            "strict_min_version": "78.0",
+            "strict_max_version": "78.*"
+        }
+    },
+    "background": {
+        "scripts": [
+            "background.js"
+        ]
+    },
+    "permissions": [
+        "menus",
+        "accountsRead",
+        "messagesRead"
+    ]
+}
