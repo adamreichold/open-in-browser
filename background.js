@@ -18,7 +18,7 @@ async function* openSubFolders(folder, action) {
     }
 
     for (const subFolder of folder.subFolders) {
-        for await (const messageId of openSubFolders(subFolder)) {
+        for await (const messageId of openSubFolders(subFolder, action)) {
             yield messageId;
         }
     }
