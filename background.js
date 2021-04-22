@@ -80,7 +80,7 @@ async function openInBrowser(messageId) {
 
 browser.menus.create({
     id: "openUnread",
-    title: "Open unread",
+    title: "Open unread in browser",
     contexts: ["folder_pane"],
     async onclick(info) {
         for await (const messageId of openSubFolders(info.selectedFolder, openUnread)) {
@@ -91,8 +91,8 @@ browser.menus.create({
 
 browser.menus.create({
     id: "openSelected",
-    title: "Open selected",
-    contexts: ["folder_pane"],
+    title: "Open selected in browser",
+    contexts: ["message_list"],
     async onclick(info, tab) {
         for await (const messageId of openSelected(tab.id)) {
             openInBrowser(messageId);
