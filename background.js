@@ -101,7 +101,7 @@ browser.menus.create({
 });
 
 browser.menus.onShown.addListener(async function (info) {
-    const accountId = info.selectedFolder.accountId;
+    const accountId = info.viewType == "tab" ? info.displayedFolder.accountId : info.selectedFolder.accountId;
     const account = await browser.accounts.get(accountId);
     const isRss = account.type == "rss";
 

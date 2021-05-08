@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Open in browser",
     "description": "A context menu item to open the links associated with news items in the default browser and then mark them as read.",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "author": "Adam Reichold",
     "applications": {
         "gecko": {
