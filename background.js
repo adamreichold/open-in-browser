@@ -1,6 +1,6 @@
 /*
 
-Copyright 2021 Adam Reichold
+Copyright 2021-2022 Adam Reichold
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -101,9 +101,14 @@ browser.menus.create({
 });
 
 browser.menus.onShown.addListener(async function (info) {
-    const accountId = info.viewType == "tab" ? info.displayedFolder.accountId : info.selectedFolder.accountId;
-    const account = await browser.accounts.get(accountId);
-    const isRss = account.type == "rss";
+    let account = null;
+    if (info.contexts.includes("message_list") && info.displayedFolder) {
+        account = await browser.accounts.get(info.displayedFolder.accountId);
+    } else if (info.contexts.includes("folder_pane") && info.selectedFolder) {
+        account = await browser.accounts.get(info.selectedFolder.accountId);
+    }
+
+    const isRss = account?.type == "rss";
 
     browser.menus.update("openUnread", { visible: isRss });
     browser.menus.update("openSelected", { visible: isRss });
