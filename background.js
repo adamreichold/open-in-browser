@@ -45,7 +45,7 @@ async function* openSubFolders(folder, action) {
 
 async function* openUnread(folder) {
     const page = await browser.messages.query({
-        folder: folder,
+        folderId: folder.id,
         unread: true
     });
 
@@ -65,17 +65,25 @@ async function* openSelected(tabId) {
 async function openInBrowser(messageId) {
     const message = await browser.messages.getFull(messageId);
 
-    const contentBase = message.headers["content-base"];
-    if (contentBase === undefined) {
-        return;
-    }
-    for (let url of contentBase) {
-        browser.windows.openDefaultBrowser(url);
+    let anyUrl = false;
+
+    for (let part of message.parts) {
+        const contentBase = part.headers["content-base"];
+        if (contentBase === undefined) {
+            continue;
+        }
+
+        for (let url of contentBase) {
+            browser.windows.openDefaultBrowser(url);
+            anyUrl = true;
+        }
     }
 
-    browser.messages.update(messageId, {
-        read: true
-    });
+    if (anyUrl) {
+        browser.messages.update(messageId, {
+            read: true
+        });
+    }
 }
 
 browser.menus.create({
